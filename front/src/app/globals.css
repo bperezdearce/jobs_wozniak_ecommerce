@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "AppleGaramond-Bold";
+  src: url('/fonts/AppleGaramond-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "AppleGaramond";
+  src: url('/fonts/AppleGaramond.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "SFPro";
+  src: url('/fonts/SFPro.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "MyriadPro";
+  src: url('/fonts/MyriadPro.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "MyriadProLight";
+  src: url('/fonts/MyriadProLight.otf') format('opentype');
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f7;
+}
+
