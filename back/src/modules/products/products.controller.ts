@@ -1,5 +1,15 @@
-import { Controller, Get, Post, Put, Delete, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  HttpCode,
+  Param,
+  Body,
+} from '@nestjs/common';
 import { ProductsService } from './products.service';
+import { Product } from './products.interfaces';
 
 @Controller('products')
 export class ProductsController {
@@ -13,25 +23,28 @@ export class ProductsController {
 
   @HttpCode(200)
   @Get(':id')
-  getUserById() {
-    return 'Este endpoint devuelve un producto según su id';
+  getProductById(@Param('id') id: string) {
+    return this.productsService.getProductById(Number(id));
   }
 
   @HttpCode(201)
   @Post()
-  createUser() {
-    return 'Este endpoint crea un producto';
+  createProduct(@Body() product: Product) {
+    return this.productsService.createProduct(product);
   }
 
   @HttpCode(200)
   @Put(':id')
-  updateUser() {
-    return 'Este endpoint modifica un producto según su id';
+  updateProduct(
+    @Param('id') id: string,
+    @Body() updatedData: Partial<Omit<Product, 'id'>>,
+  ) {
+    return this.productsService.updateProduct(Number(id), updatedData);
   }
 
   @HttpCode(200)
   @Delete(':id')
-  deleteUser() {
-    return 'Este endpoint elimina un producto según su id';
+  deleteProduct(@Param('id') id: string) {
+    return this.productsService.deleteProduct(Number(id));
   }
 }
