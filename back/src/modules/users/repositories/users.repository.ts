@@ -67,6 +67,10 @@ export class UsersRepository {
   updateUser(id: number, updatedData: Partial<Omit<User, 'id'>>) {
     const userIndex = this.users.findIndex((user) => user.id === id);
 
+    if (userIndex === -1) {
+      throw new Error(`User with id ${id} not found`);
+    }
+
     this.users[userIndex] = {
       ...this.users[userIndex],
       ...updatedData,
@@ -77,6 +81,10 @@ export class UsersRepository {
 
   deleteUser(id: number) {
     const userIndex = this.users.findIndex((user) => user.id === id);
+
+    if (userIndex === -1) {
+      throw new Error(`User with id ${id} not found`);
+    }
 
     this.users.splice(userIndex, 1);
 
