@@ -7,7 +7,10 @@ import {
   HttpCode,
   Param,
   Body,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard';
 import { ProductsService } from './products.service';
 import { Product } from './products.interfaces';
 
@@ -17,8 +20,10 @@ export class ProductsController {
 
   @HttpCode(200)
   @Get()
-  getAllProducts() {
-    return this.productsService.getAllProducts();
+  getAllProducts(@Query('page') page?: string, @Query('limit') limit?: string) {
+    const pageNumber = page ? parseInt(page, 10) : undefined;
+    const limitNumber = limit ? parseInt(limit, 10) : undefined;
+    return this.productsService.getAllProducts(pageNumber, limitNumber);
   }
 
   @HttpCode(200)
@@ -27,12 +32,14 @@ export class ProductsController {
     return this.productsService.getProductById(Number(id));
   }
 
+  @UseGuards(AuthGuard)
   @HttpCode(201)
   @Post()
   createProduct(@Body() product: Product) {
     return this.productsService.createProduct(product);
   }
 
+  @UseGuards(AuthGuard)
   @HttpCode(200)
   @Put(':id')
   updateProduct(
@@ -42,6 +49,7 @@ export class ProductsController {
     return this.productsService.updateProduct(Number(id), updatedData);
   }
 
+  @UseGuards(AuthGuard)
   @HttpCode(200)
   @Delete(':id')
   deleteProduct(@Param('id') id: string) {

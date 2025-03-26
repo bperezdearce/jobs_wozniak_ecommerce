@@ -34,6 +34,16 @@ export class UsersRepository {
       country: 'Chile',
       city: 'Concepción',
     },
+    {
+      id: 4,
+      email: 'barbara.perezdearce@gmail.com',
+      name: 'Bárbara Pérez de Arce',
+      password: 'Hg7fT8klo',
+      address: 'Avenida Los Cerezos 1350, Las Condes, Región Metropolitana',
+      phone: '+56987456321',
+      country: 'Chile',
+      city: 'Santiago',
+    },
   ];
 
   private excludePassword(user: User): Omit<User, 'password'> {
@@ -42,8 +52,12 @@ export class UsersRepository {
     ) as Omit<User, 'password'>;
   }
 
-  getAllUsers() {
-    return this.users.map((user) => this.excludePassword(user));
+  getAllUsers(page: number = 1, limit: number = 5) {
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    return this.users
+      .slice(startIndex, endIndex)
+      .map((user) => this.excludePassword(user));
   }
 
   getUserById(id: number) {
@@ -52,6 +66,14 @@ export class UsersRepository {
       throw new Error(`User with id ${id} not found`);
     }
     return this.excludePassword(user);
+  }
+
+  getUserByEmail(email: string) {
+    const user = this.users.find((user) => user.email === email);
+    if (!user) {
+      throw new Error(`User with email ${email} not found`);
+    }
+    return user;
   }
 
   createUser(user: Omit<User, 'id'>) {

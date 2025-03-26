@@ -6,8 +6,10 @@ import { User } from './users.interfaces';
 export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
-  getAllUsers() {
-    return this.usersRepository.getAllUsers();
+  getAllUsers(page?: number, limit?: number) {
+    const currentPage = page || 1;
+    const currentLimit = limit || 5;
+    return this.usersRepository.getAllUsers(currentPage, currentLimit);
   }
 
   getUserById(id: number) {

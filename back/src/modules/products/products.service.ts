@@ -6,8 +6,10 @@ import { Product } from './products.interfaces';
 export class ProductsService {
   constructor(private productsRepository: ProductsRepository) {}
 
-  getAllProducts() {
-    return this.productsRepository.getAllProducts();
+  getAllProducts(page?: number, limit?: number) {
+    const currentPage = page || 1;
+    const productsPerPage = limit || 5;
+    return this.productsRepository.getAllProducts(currentPage, productsPerPage);
   }
 
   getProductById(id: number) {
